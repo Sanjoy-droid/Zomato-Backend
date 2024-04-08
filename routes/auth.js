@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const User = require("../models/User");
 const router = express.Router();
@@ -7,7 +9,7 @@ var jwt = require("jsonwebtoken");
 
 var fetchuser = require("../middleware/fetchuser");
 
-const JWT_SECRET = "Sanjoy-droid Z0mat0 Cl0ne";
+const JWT_SECRET = process.env.JWT_SECRET;
 // Route 1: Create a User using: POST "/api/auth/createuser"
 router.post(
   "/createuser",
@@ -121,7 +123,7 @@ router.post(
   async (req, res) => {
     // If there are errors, return the bad requests and the errors
     try {
-      userId = req.user.id;
+      const userId = req.user.id;
       const user = await User.findById(userId).select("-password");
       res.send(user);
     } catch (error) {
